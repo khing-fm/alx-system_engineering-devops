@@ -1,2 +1,2 @@
 #!/bin/bash
-mkdir -my 751 dir_hello
+mkdir -m 751 dir_hello
