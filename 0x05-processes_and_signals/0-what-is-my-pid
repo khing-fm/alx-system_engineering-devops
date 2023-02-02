@@ -1,5 +1,3 @@
 #!/usr/bin/env bash
-# This script displays its own PID
-
-sleep 5 &
-echi"$!"
+# Display the PID of the current script
+echo "The PID of this script is: $$"
