@@ -1,3 +1,18 @@
 #!/usr/bin/env ruby
 # A regular expression that is matches a given pattern
-puts ARGV[0].scan(/hbt{2,5}n/).join
+require 'oniguruma'
+
+def match(string)
+  regex = Oniguruma::ORegexp.new("^([A-Z][a-z]+){2,}$")
+  regex.match(string)
+end
+
+if __FILE__ == $0
+  string = ARGV[0]
+  if match(string)
+    puts "Matched"
+  else
+    puts "Not matched"
+  end
+end
+
