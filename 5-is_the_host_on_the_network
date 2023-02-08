@@ -7,9 +7,18 @@ if [ $# -eq 0 ]; then
 fi
 
 ip=$1
+
+# Ping the IP 5 times and display the output
 ping -c 5 $ip | while read pong; do
   echo "$pong"
 done
+
+# Display the ping statistics
 echo "--- $ip ping statistics ---"
-ping -c 5 $ip | grep rtt | cut -d "/" -f 5 | sed 's/\//\ /g'
+ping -c 5 $ip | grep rtt | cut -d "/" -f 5 | sed 's/\// /g'
+
+# Explanation of the time value
+echo "Time value: time for ICMP req to $ip & back"
+echo "Fast ping=fast network. Slow ping=slow network"
+echo "Use ping to check network status when connection is slow"
 
