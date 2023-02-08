@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
+# Check if IP address argument is passed
 if [ $# -eq 0 ]; then
   echo "Usage: 5-is_the_host_on_the_network {IP_ADDRESS}"
   exit 1
 fi
 
 ip=$1
-ping -c 5 $ip
+ping -c 5 $ip | while read pong; do
+  echo "$pong"
+done
+echo "--- $ip ping statistics ---"
+ping -c 5 $ip | grep rtt | cut -d "/" -f 5 | sed 's/\//\ /g'
+
