@@ -1,19 +1,9 @@
 #!/usr/bin/env bash
+# Configures an Ubuntu server as follows:
+#	- localhost resolves to 127.0.0.2
+#	- facebook.com resolves to 8.8.8.8
 
-# Check if running as root
-if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root" 
-   exit 1
-fi
-
-# Backup the current /etc/hosts file
-cp /etc/hosts /etc/hosts.bak
-
-# Add the desired IPs to /etc/hosts
-echo "127.0.0.2 localhost" >> /etc/hosts
-echo "8.8.8.8 facebook.com" >> /etc/hosts
-
-# Restart the networking service to apply the changes
-systemctl restart networking
-
-echo "Localhost IP has been changed to 127.0.0.2 and facebook.com IP has been changed to 8.8.8.8"
+cp /etc/hosts -/hostd.new
+echo "127.0.0.2		localhost" > -/hosts.new
+echo "8.8.8.8		facebook.com" >> -/hosts.new
+cp -f -/hosts.new /etc/hosts8.8"
