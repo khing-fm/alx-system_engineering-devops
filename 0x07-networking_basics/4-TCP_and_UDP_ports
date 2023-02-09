@@ -1,10 +1,4 @@
 #!/usr/bin/env bash
 # This script displays listening sockets with the PID and name of the program to which each socket belongs
 
-if [ $# -eq 0 ]; then
-  echo "Usage: 5-is_the_host_on_the_network {IP_ADDRESS}"
-  exit 1
-fi
-
-ip=$1
-ping -c 5 $ip
+netstat -lp
