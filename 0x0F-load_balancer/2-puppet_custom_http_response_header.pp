@@ -1,26 +1,36 @@
-# Installs a Nginx server with custome HTTP header
-
-exec {'update':
-  provider => shell,
-  command  => 'sudo apt-get -y update',
-  before   => Exec['install Nginx'],
+# automate the task of creating a custom HTTP header response
+exec { 'update':
+  command => '/usr/bin/apt-get -y update',
 }
 
-exec {'install Nginx':
-  provider => shell,
-  command  => 'sudo apt-get -y install nginx',
-  before   => Exec['add_header'],
+package { 'nginx':
+  ensure  => 'installed',
+  require => Exec['update'],
 }
 
-exec { 'add_header':
-  provider    => shell,
-  environment => ["HOST=${hostname}"],
-  command     => 'sudo sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$HOST\";/" /etc/nginx/nginx.conf',
-  before      => Exec['restart Nginx'],
+
+file { '/var/www/html/index.html':
+  content => 'Hello World!',
+  require => Package['nginx'],
 }
 
-exec { 'restart Nginx':
-  provider => shell,
-  command  => 'sudo service nginx restart',
+file_line { 'redirect':
+  ensure  => 'present',
+  path    => '/etc/nginx/sites-enabled/default',
+  after   => 'listen 80 default_server;',
+  line    => 'rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
+  require => Package['nginx'],
 }
 
+file_line { 'add-header':
+  ensure  => 'present',
+  path    => '/etc/nginx/sites-enabled/default',
+  after   => 'listen 80 default_server;',
+  line    => 'add_header X-Served-By $HOSTNAME;',
+  require => Package['nginx'],
+}
+
+service { 'nginx':
+  ensure  => 'running',
+  require => Package['nginx'],
+}
