@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Contains top_ten function"""
+"""Function to print hot posts on a given Reddit subreddit."""
 import requests
 
 
