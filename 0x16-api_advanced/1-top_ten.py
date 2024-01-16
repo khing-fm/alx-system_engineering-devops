@@ -5,13 +5,15 @@ import requests
 
 def top_ten(subreddit):
     """Print the titles of the 10 hottest posts on a given subreddit."""
-    if not subreddit or type(subreddit) != str:
-        return 0
-    url = 'http://www.reddit.com/r/{}/hot.json'.format(subreddit)
-    headers = {'User-Agent': '0x16-api_advanced:project:\
-v1.0.0 (by /u/firdaus_cartoon_jr)'}
-    params = {"limit": 10}
-    response = requests.get(url, headers=headers, params=params)
+    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
+    headers = {
+        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
+    }
+    params = {
+        "limit": 10
+    }
+    response = requests.get(url, headers=headers, params=params,
+                            allow_redirects=False)
     if response.status_code == 404:
         print("None")
         return
